@@ -8,27 +8,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.5.0/firebase-app-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.5.0/firebase-auth-compat.js"></script>
+    <style>
+        .loader {
+            border-top-color: #3498db;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-400">
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+    </div>
+
     <!-- Login Form -->
     <div id="loginForm" class="min-h-screen flex items-center justify-center">
-        <div class="bg-white p-8 rounded-lg shadow-md w-96">
-            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Admin Login</h2>
-            <form id="login-form" class="space-y-4">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-900">Admin Login</h2>
+            <form id="login-form" class="space-y-6">
                 <div>
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
                         Email Address
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter your email">
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Enter your email" required>
                 </div>
                 <div>
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                         Password
                     </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter your password">
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Enter your password" required>
                 </div>
-                <button class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                <button class="w-full bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Sign In
                 </button>
             </form>
@@ -36,17 +53,17 @@
     </div>
 
     <!-- Admin Dashboard -->
-    <div id="adminDashboard" class="hidden min-h-screen bg-gray-100">
+    <div id="adminDashboard" class="hidden min-h-screen bg-gray-50">
         <!-- Navigation -->
         <nav class="bg-white shadow-lg">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <span class="text-xl font-semibold text-gray-800">Admin Dashboard</span>
+                        <span class="text-2xl font-semibold text-gray-900">Admin Dashboard</span>
                     </div>
                     <div class="flex items-center">
-                        <span id="userEmail" class="mr-4 text-gray-600"></span>
-                        <button id="logoutBtn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        <span id="userEmail" class="mr-4 text-gray-700"></span>
+                        <button id="logoutBtn" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">
                             Logout
                         </button>
                     </div>
@@ -59,15 +76,15 @@
             <!-- Stats Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Total Users</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Total Users</h3>
                     <p class="text-3xl font-bold text-blue-600">1,234</p>
                 </div>
                 <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Active Sessions</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Active Sessions</h3>
                     <p class="text-3xl font-bold text-green-600">56</p>
                 </div>
                 <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-2">New Users Today</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">New Users Today</h3>
                     <p class="text-3xl font-bold text-purple-600">12</p>
                 </div>
             </div>
@@ -75,7 +92,7 @@
             <!-- Recent Activity -->
             <div class="bg-white rounded-lg shadow">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
                 </div>
                 <div class="p-6">
                     <div class="space-y-4">
@@ -99,6 +116,16 @@
         </main>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-white shadow-lg mt-8">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">&copy; 2023 Admin Dashboard. All rights reserved.</span>
+                <a href="#" class="text-sm text-blue-600 hover:underline">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // Firebase configuration - Replace with your config
         const firebaseConfig = {
@@ -111,7 +138,6 @@
             measurementId: "G-QSMWLKY8YH"
         };
 
-
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -122,22 +148,40 @@
         const dashboardDiv = document.getElementById('adminDashboard');
         const logoutBtn = document.getElementById('logoutBtn');
         const userEmailSpan = document.getElementById('userEmail');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Show loading spinner
+        function showLoading() {
+            loadingSpinner.classList.remove('hidden');
+        }
+
+        // Hide loading spinner
+        function hideLoading() {
+            loadingSpinner.classList.add('hidden');
+        }
 
         // Login form submit handler
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            showLoading();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             auth.signInWithEmailAndPassword(email, password)
                 .catch((error) => {
                     alert('Error: ' + error.message);
+                })
+                .finally(() => {
+                    hideLoading();
                 });
         });
 
         // Logout handler
         logoutBtn.addEventListener('click', () => {
-            auth.signOut();
+            showLoading();
+            auth.signOut().finally(() => {
+                hideLoading();
+            });
         });
 
         // Auth state change listener
